@@ -12,19 +12,49 @@ var argv = yargs.argv;
 */
 
 
+//* --code--
+
+var titleOptions = {
+    describe: 'Title of the note.',
+    demand: true,
+    alias: 't'
+};
+var bodyOptions = {
+    describe: 'Body of the note.',
+    demand: true,
+    alias: 'b'
+};
+var argv = yargs.command('add', 'Add a new note', {
+    title: titleOptions,
+    body: bodyOptions
+})
+    .command('list', 'List all notes')
+    .command('read', 'Read one node.', {
+        title: titleOptions
+    })
+    .command('remove', 'Remove a note.', {
+        title: titleOptions
+    })
+    .help()
+    .argv;
+
+//*-----
+
+
+
 var command = argv._[0];
 
-if(command == 'add'){
+if (command == 'add') {
     note = notes.addNotes(argv.title, argv.body);
-    if(note){
+    if (note) {
         console.log('Note created');
         notes.logNote(note)
-    }else{
+    } else {
         console.log('Note already exist.');
     }
 }
 
-else if(command === 'read'){
+else if (command === 'read') {
 
     /* --Instruction--
         1. Get a title from the command line and pass to the getNote() function inside notes.js.
@@ -33,13 +63,19 @@ else if(command === 'read'){
        
     */
 
-        
 
-    /* --Code--
-      write your code here
-    */
+    //---code-----
+
+    allNotes = notes.getAll();
+    console.log(`Printing ${allNotes.length} note(s) `);
+    allNotes.forEach((note) => {
+        notes.logNote(note)
+    });
+
+    //--------
+
 }
-else if(command === 'list'){
+else if (command === 'list') {
     allNotes = notes.getAll();
 
 
@@ -48,15 +84,15 @@ else if(command === 'list'){
     */
 
 
-    /* --Code---
-        write your code here
-    */
+    //* --Code---
+
+    console.log(`Printing ${allNotes.length} note(s) `);
 
     allNotes.forEach((note) => {
         notes.logNote(note)
     });
 }
-else if(command === 'remove'){
+else if (command === 'remove') {
 
     /* --Instruction--
         1. Get a title from the command line
@@ -64,14 +100,18 @@ else if(command === 'remove'){
         3. Give use the feedback wether or not the note was removed.
     */
 
-    
-    /* --Code---
-        write your code here
-    */
+
+    //* --Code---
+
+    var noteRemoved = notes.removeNote(argv.title);
+    var message = noteRemoved ? 'Note was removed' : 'note note found.';
+    console.log(message);
+
+    //
 
 
 }
-else{
+else {
     console.log('command is not recognized.')
 }
 

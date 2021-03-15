@@ -7,7 +7,7 @@ var fetchNote = () => {
         return JSON.parse(notesString);
 
     } catch (error) {
-       return [];
+        return [];
     }
 };
 
@@ -21,22 +21,28 @@ var addNotes = (title, body) => {
         title,
         body
     };
- 
+
     /* --instruction
         check if a note already exists?
         if yes; then return 'true'
         if not; save the note. and print the newly added note.
     */
 
-        /* --code
 
-            write your code here
+    //* --code
 
-        */
+    var duplicateNotes = notes.filter(function (note) {
+        return note.title === title;
+    });
+    if (duplicateNotes.length === 0) {
+        notes.push(note);
+        saveNote(notes)
+        return note;
+    }
 
-    saveNote(notes)
-    return note;
-    
+    //*/
+
+
 }
 
 var getAll = () => {
@@ -50,28 +56,39 @@ var getNote = (title) => {
         2. Filter notes get the one with title of argument
         3. Return the note if found it.
     */
-   
-    /* --Code--
-      write your code here
-    */
-  
+
+    //* --Code--
+
+    let notes = fetchNote();
+    note = notes.filter((note) => note.title === title);
+    return note[0];
+
+    //*/
+
 };
 
 var removeNote = (title) => {
-      /* --Instruction--
-        1. fetch the notes
-        2. filter notes, remove the one with title of the argument.
-        3. save new notes array.
-      */
-    
-
-    /* --Code--
-      write your code here
+    /* --Instruction--
+      1. fetch the notes
+      2. filter notes, remove the one with title of the argument.
+      3. save new notes array.
     */
-   
+
+
+    ///* --Code--
+
+    let notes = fetchNote();
+    let filteredNotes = notes.filter(function (note) {
+        return note.title !== title;
+    });
+    saveNote(filteredNotes);
+    return notes.length !== filteredNotes.length;
+
+    //*/
+
 };
 
-var logNote = (note) =>{
+var logNote = (note) => {
     console.log('--');
     console.log(`Title: ${note.title}`);
     console.log(`Body: ${note.body}`);
@@ -80,5 +97,7 @@ var logNote = (note) =>{
 module.exports = {
     addNotes,
     getAll,
-    logNote
+    logNote,
+    removeNote,
+    getNote
 }
