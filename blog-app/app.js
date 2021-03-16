@@ -36,6 +36,23 @@ app.get('/contact', function(req, res){
 });
 
 
+//simple adding document.
+app.get('/create', (req, res)=>{
+  var post = new Post({
+    title: 'Some title',
+    body: 'some body',
+    author: 'Aziz Qadeer',
+    date: new Date()
+  })
+
+  post.save((err, post)=>{
+      if(err){
+        console.log(err);
+      }
+
+      console.log(post);
+  })
+})
 
 
 
